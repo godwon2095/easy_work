@@ -27,10 +27,11 @@ if len(keywords) > 0:
   browser = webdriver.Chrome(chrome_options=chrome_options)
   for index, keyword in enumerate(keywords):
     browser.get("https://display.cjonstyle.com/p/search/searchAllList?k={}&searchType=ALL".format(keyword))
-    time.sleep(3)
+    # time.sleep(3)
     try:
-        # myElem = WebDriverWait(browser, 3).until(EC.presence_of_element_located((By.ID, 'cont_listing0')))
+        myElem = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".shop_area, .dsc_notice")))
         has_searched_result = False
+        # pdb.set_trace()
         try:
           browser.find_element_by_class_name("dsc_notice")
         except WebDriverException:
