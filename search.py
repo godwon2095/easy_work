@@ -27,21 +27,29 @@ if len(keywords) > 0:
   browser = webdriver.Chrome(chrome_options=chrome_options)
   for index, keyword in enumerate(keywords):
     browser.get("https://display.cjonstyle.com/p/search/searchAllList?k={}&searchType=ALL".format(keyword))
-    # time.sleep(3)
+    time.sleep(3)
     try:
-        myElem = WebDriverWait(browser, 3).until(EC.presence_of_element_located((By.ID, 'cont_listing0')))
+        # myElem = WebDriverWait(browser, 3).until(EC.presence_of_element_located((By.ID, 'cont_listing0')))
         has_searched_result = False
         try:
           browser.find_element_by_class_name("dsc_notice")
         except WebDriverException:
           has_searched_result = True
+          
+        have_text = "있음"
+        no_text = "없음"
         
-        df_sheet_index['검색결과'][index] = "있음" if has_searched_result else "없음"
+        if has_searched_result:
+          df_sheet_index['검색결과'][index] = have_text
+        else:
+          df_sheet_index['검색결과'][index] = no_text
+      
         print("검색결과 {}".format("있음!" if has_searched_result else "없음ㅠ"))
     except TimeoutException:
         print("로딩 타임아웃!!!")
-  
-  df_sheet_index.to_excel('keywords_result.xlsx', sheet_name="Sheet1", index=False)
+        
+  styled = (df_sheet_index.style.applymap(lambda v: 'color: %s' % 'red' if v=='없음' else ''))
+  styled.to_excel('keywords_result.xlsx', sheet_name="Sheet1", index=False)
   browser.quit()
 else:
   print("키워드 리스트를 입력해주세요.")
