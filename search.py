@@ -29,7 +29,7 @@ if len(keywords) > 0:
     browser.get("https://display.cjonstyle.com/p/search/searchAllList?k={}&searchType=ALL".format(keyword))
     # time.sleep(3)
     try:
-        myElem = WebDriverWait(browser, 3).until(EC.presence_of_element_located((By.CLASS_NAME, 'search_result_info')))
+        myElem = WebDriverWait(browser, 3).until(EC.presence_of_element_located((By.ID, 'cont_listing0')))
         has_searched_result = False
         try:
           browser.find_element_by_class_name("dsc_notice")
