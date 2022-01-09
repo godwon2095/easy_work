@@ -5,7 +5,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException, WebDriverException
 import pdb
-import time
 import pandas as pd
 
 df_sheet_index = pd.read_excel("./keywords.xlsx")
