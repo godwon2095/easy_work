@@ -7,8 +7,6 @@ from selenium.common.exceptions import TimeoutException, WebDriverException
 import pdb
 import pandas as pd
 
-df_sheet_index = pd.read_excel("./keywords.xlsx")
-
 chrome_options = Options()
 chrome_options.add_argument("--disable-extensions")
 chrome_options.add_argument("--disable-gpu")
@@ -21,9 +19,13 @@ chrome_options.add_argument("--window-size=1920,1080")
 chrome_options.add_argument("--lang=ko-KR")
 chrome_options.add_argument('--user-agent="Mozilla/5.0 (Linux; Android 8.0; SM-S10 Lite) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Mobile Safari/537.36"')
 
-keywords = df_sheet_index['키워드목록']
+elements_count = int(input("키워드 개수를 입력해주세요: "))
+print("\n")
+keywords = list(input() for _ in range(elements_count))
+search_result_arr = []
+
 if len(keywords) > 0:
-  browser = webdriver.Chrome(chrome_options=chrome_options)
+  browser = webdriver.Chrome(chrome_options=chrome_options, executable_path="C:/chromedriver.exe")
   for index, keyword in enumerate(keywords):
     browser.get("https://display.cjonstyle.com/p/search/searchAllList?k={}&searchType=ALL".format(keyword))
     # time.sleep(3)
@@ -40,16 +42,29 @@ if len(keywords) > 0:
         no_text = "없음"
         
         if has_searched_result:
-          df_sheet_index['검색결과'][index] = have_text
+          search_result_arr.append(have_text)
         else:
-          df_sheet_index['검색결과'][index] = no_text
+          search_result_arr.append(no_text)
       
         print("검색결과 {}".format("있음!" if has_searched_result else "없음ㅠ"))
     except TimeoutException:
         print("로딩 타임아웃!!!")
-        
+
+
+  df = pd.DataFrame({
+      '키워드': keywords,
+      '검색결과': search_result_arr,
+  })
+  writer = pd.ExcelWriter("keywords_{}.xlsx".format(elements_count), engine='xlsxwriter')
+  df.to_excel(writer, sheet_name='Sheet1', index=False)
+  writer.save()
+
+  df_sheet_index = pd.read_excel("./keywords_{}.xlsx".format(elements_count))
   styled = (df_sheet_index.style.applymap(lambda v: 'color: %s' % 'red' if v=='없음' else ''))
-  styled.to_excel('keywords_result.xlsx', sheet_name="Sheet1", index=False)
+  styled.to_excel("./keywords_{}.xlsx".format(elements_count), sheet_name="Sheet1", index=False)
+  
+  print("엑셀파일이 생성되었습니다")
+        
   browser.quit()
 else:
   print("키워드 리스트를 입력해주세요.")

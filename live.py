@@ -15,11 +15,8 @@ chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--ignore-certificate-errors")
 chrome_options.add_argument("--disable-popup-blocking")
-chrome_options.add_argument("--window-size=1920,1080")
-chrome_options.add_argument("--lang=ko-KR")
-chrome_options.add_argument('--user-agent="Mozilla/5.0 (Linux; Android 8.0; SM-S10 Lite) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Mobile Safari/537.36"')
 
-browser = webdriver.Chrome(chrome_options=chrome_options)
+browser = webdriver.Chrome(chrome_options=chrome_options, executable_path="C:/chromedriver.exe")
 
 date = input("날짜를 입력해주세요 ex: 20220109 :")
 
