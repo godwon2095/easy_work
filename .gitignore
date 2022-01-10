@@ -3,3 +3,5 @@ keywords_result.xlsx
 live.xlsx
 .venv
 .DS_Store
+live_*.xlsx
+keywords_*.xlsx

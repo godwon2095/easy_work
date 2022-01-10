@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException, WebDriverException
 import pdb
 import pandas as pd
+import datetime
 
 chrome_options = Options()
 chrome_options.add_argument("--disable-extensions")
@@ -54,11 +55,16 @@ try:
         try:
             item = browser.find_elements(By.CSS_SELECTOR, "#scheduleItem > ul:nth-child({}) > li:nth-child(1) > div > strong > a".format(i))
             item_name_arr.append(item[0].text)
-            item_code_arr.append(item[0].get_attribute('href').split("/")[-1].split("?")[0])
+            item_code_arr.append(int(item[0].get_attribute('href').split("/")[-1].split("?")[0]))
         except:
             pass
+
+    days = ["월", "화", "수", "목", "금", "토", "일"]
+    b = days[datetime.date(int(date[0:4]), int(date[4:6]), int(date[6:])).weekday()]
+    date_arr = ["{}/{}({})".format(date[4:6], date[6:], b) for i in range(len(time_arr))]
     
     df = pd.DataFrame({
+        '날짜': date_arr,
         '시간대': time_arr,
         '상품명': item_name_arr,
         '상품코드': item_code_arr
