@@ -51,7 +51,7 @@ try:
         if len(live_time) > 0:
             time_arr.append(live_time)
     
-    for i in range(3, 41):
+    for i in range(3, 49):
         try:
             item = browser.find_elements(By.CSS_SELECTOR, "#scheduleItem > ul:nth-child({}) > li:nth-child(1) > div > strong > a".format(i))
             item_name_arr.append(item[0].text)
