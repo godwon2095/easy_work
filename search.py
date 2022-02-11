@@ -30,7 +30,7 @@ if len(keywords) > 0:
     browser.get("https://display.cjonstyle.com/p/search/searchAllList?k={}&searchType=ALL".format(keyword))
     # time.sleep(3)
     try:
-        myElem = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".shop_area, .dsc_notice")))
+        myElem = WebDriverWait(browser, 15).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".shop_area, .dsc_notice")))
         has_searched_result = False
         # pdb.set_trace()
         try:
@@ -48,8 +48,11 @@ if len(keywords) > 0:
       
         print("검색결과 {}".format("있음!" if has_searched_result else "없음ㅠ"))
     except TimeoutException:
+        search_result_arr.append("타임아웃")
         print("로딩 타임아웃!!!")
-
+        
+  # if len(keywords) != len(search_result_arr):
+  #     keywords = 
 
   df = pd.DataFrame({
       '키워드': keywords,

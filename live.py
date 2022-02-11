@@ -61,7 +61,7 @@ try:
 
     days = ["월", "화", "수", "목", "금", "토", "일"]
     b = days[datetime.date(int(date[0:4]), int(date[4:6]), int(date[6:])).weekday()]
-    date_arr = ["{}/{}({})".format(date[4:6], date[6:], b) for i in range(len(time_arr))]
+    date_arr = ["{}/{}({})".format(date[4:6], date[6:], b) for _ in range(len(time_arr))]
     
     df = pd.DataFrame({
         '날짜': date_arr,
