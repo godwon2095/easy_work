@@ -50,6 +50,9 @@ if len(keywords) > 0:
     except TimeoutException:
         print("로딩 타임아웃!!!")
 
+  if len(keywords) != len(search_result_arr):
+      search_result_arr = search_result_arr[:len(keywords)]
+
 
   df = pd.DataFrame({
       '키워드': keywords,
